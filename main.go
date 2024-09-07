@@ -38,7 +38,7 @@ func corsMiddlewares(next http.Handler) http.Handler {
 		origin := r.Header.Get("Origin")
 		fmt.Println("Origin received:", origin)
 
-		allowedOrigins := "http://localhost:3000"
+		allowedOrigins := "https://fe-tb-berkah-jaya-750892348569.us-central1.run.app"
 
 		if origin == allowedOrigins {
 			w.Header().Set("Access-Control-Allow-Origin", allowedOrigins)
