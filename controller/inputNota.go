@@ -41,21 +41,28 @@ func InputNota(w http.ResponseWriter, r *http.Request) {
 	hashnameOnlyString := hex.EncodeToString(hasher[:])
 
 	// mengambil id dari session
-	session, err := config.Store.Get(r, "berkah-jaya-session")
-	if err != nil {
-		log.Println("error on line 27 function input nota")
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	// session, err := config.Store.Get(r, "berkah-jaya-session")
+	// if err != nil {
+	// 	log.Println("error on line 27 function input nota")
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	return
+	// }
 
-	// mendapatkan id dari session
-	idUser := session.Values["id"]
+	// // mendapatkan id dari session
+	// idUser := session.Values["id"]
 	
-	// konversi id user dari interface ke int
-	idUserUint, ok := idUser.(uint)
-	if !ok {
-		log.Println("error on line 55 function input nota")
-		http.Error(w, "cannot Get ID user", http.StatusInternalServerError)
+	// // konversi id user dari interface ke int
+	// idUserUint, ok := idUser.(uint)
+	// if !ok {
+	// 	log.Println("error on line 55 function input nota")
+	// 	http.Error(w, "cannot Get ID user", http.StatusInternalServerError)
+	// 	return
+	// }
+
+	idUserUint, err := helper.GetIDFromToken(r)
+	if err != nil {
+		message := map[string]interface{}{"message": err.Error()}
+		helper.Response(w, message, http.StatusUnauthorized)
 		return
 	}
 	// id int 

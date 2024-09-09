@@ -11,13 +11,20 @@ import (
 
 func NotaUserCanceled(w http.ResponseWriter, r *http.Request) {
 	// retreaving id user from session
-	session, err := config.Store.Get(r, "berkah-jaya-session")
+	// session, err := config.Store.Get(r, "berkah-jaya-session")
+	// if err != nil {
+	// 	log.Println("Error cant retreaving id fron session function ProsesPoinUser")
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	return
+	// }
+	// idUser := session.Values["id"].(uint)
+
+	idUser, err := helper.GetIDFromToken(r)
 	if err != nil {
-		log.Println("Error cant retreaving id fron session function ProsesPoinUser")
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		message := map[string]interface{}{"message": err.Error()}
+		helper.Response(w, message, http.StatusUnauthorized)
 		return
 	}
-	idUser := session.Values["id"].(uint)
 
 	// retreaving data pembelians from database
 	var pembelians []models.Pembelian

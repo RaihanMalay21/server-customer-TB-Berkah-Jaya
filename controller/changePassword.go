@@ -22,14 +22,19 @@ func ChangePassword(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// retreave id from session
-	session, err := config.Store.Get(r, "berkah-jaya-session")
+	// session, err := config.Store.Get(r, "berkah-jaya-session")
+	// if err != nil {
+	// 	log.Println("Error function ChangePassword cant get session")
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	return
+	// }
+	// IDUser := session.Values["id"]
+	IDUser, err := helper.GetIDFromToken(r)
 	if err != nil {
-		log.Println("Error function ChangePassword cant get session")
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		message := map[string]interface{}{"message": err.Error()}
+		helper.Response(w, message, http.StatusUnauthorized)
 		return
 	}
-	IDUser := session.Values["id"]
-
 	
 	// retreaving password from database
 	var dataUser models.User

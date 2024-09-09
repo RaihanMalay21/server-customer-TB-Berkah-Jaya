@@ -11,13 +11,20 @@ import (
 
 func DataUser(w http.ResponseWriter, r *http.Request) {
 	// mengambil id user dari session
-	session, err := config.Store.Get(r, "berkah-jaya-session")
+	// session, err := config.Store.Get(r, "berkah-jaya-session")
+	// if err != nil {
+	// 	log.Println(err)
+	// 	http.Error(w, err.Error(), http.StatusBadRequest)
+	// 	return
+	// }
+	// id := session.Values["id"]
+
+	id, err := helper.GetIDFromToken(r)
 	if err != nil {
-		log.Println(err)
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		message := map[string]interface{}{"message": err.Error()}
+		helper.Response(w, message, http.StatusUnauthorized)
 		return
 	}
-	id := session.Values["id"]
 
 	var getDataUser models.User
 	if err := config.DB.First(&getDataUser, id).Error; err != nil{

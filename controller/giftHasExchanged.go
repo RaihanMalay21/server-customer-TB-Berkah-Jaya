@@ -10,13 +10,20 @@ import (
 
 func GiftHasExchanged(w http.ResponseWriter, r *http.Request) {
 	// mengambil id user di session
-	session, err := config.Store.Get(r, "berkah-jaya-session")
+	// session, err := config.Store.Get(r, "berkah-jaya-session")
+	// if err != nil {
+	// 	log.Println("Error cant get session:", err.Error())
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	return
+	// }
+	// idUser := session.Values["id"].(uint)
+
+	idUser, err := helper.GetIDFromToken(r)
 	if err != nil {
-		log.Println("Error cant get session:", err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		message := map[string]interface{}{"message": err.Error()}
+		helper.Response(w, message, http.StatusUnauthorized)
 		return
 	}
-	idUser := session.Values["id"].(uint)
 
 	// mengambil hadiah yang sudah di tukar oleh users dan tidak dapat di tukar kembali 
 	var hadiahHaveChange []models.HadiahUser
