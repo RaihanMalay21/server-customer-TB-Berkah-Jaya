@@ -8,7 +8,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	config "github.com/RaihanMalay21/config-tb-berkah-jaya"
-	helper "github.com/RaihanMalay21/helper_TB_Berkah_Jaya"
+	helper "github.com/RaihanMalay21/server-customer-TB-Berkah-Jaya/helper"
 	models "github.com/RaihanMalay21/models_TB_Berkah_Jaya"
 )
 
